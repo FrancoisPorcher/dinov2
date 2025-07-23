@@ -1,0 +1,13 @@
+[RANK 2] World size: 4
+device used cuda:2
+[RANK 3] World size: 4
+[RANK 1] World size: 4
+device used cuda:3
+device used cuda:1
+[RANK 0] World size: 4
+device used cuda:0
+[RANK 3] Saving files at /private/home/francoisporcher/imagenet_embeddings/resolution_56
+[RANK 2] Saving files at /private/home/francoisporcher/imagenet_embeddings/resolution_56
+[RANK 0] Removing existing output dir: /private/home/francoisporcher/imagenet_embeddings/resolution_56
+[RANK 0] Saving files at /private/home/francoisporcher/imagenet_embeddings/resolution_56
+[RANK 1] Saving files at /private/home/francoisporcher/imagenet_embeddings/resolution_56

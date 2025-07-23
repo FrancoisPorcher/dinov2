@@ -47,10 +47,12 @@ def main_worker(args):
     
     # Output dir: add rank for uniqueness, remove if it exists
     output_dir = os.path.join(args.output_dir, f"resolution_{args.image_resolution}")
-    if os.path.exists(output_dir):
-        print(f"[RANK {local_rank}] Removing existing output dir: {output_dir}")
-        shutil.rmtree(output_dir)
-    os.makedirs(output_dir, exist_ok=True)
+    if local_rank==0:
+        if os.path.exists(output_dir):
+            print(f"[RANK {local_rank}] Removing existing output dir: {output_dir}")
+            shutil.rmtree(output_dir)
+        else:
+            os.makedirs(output_dir, exist_ok=True)
     print(f"[RANK {local_rank}] Saving files at {output_dir}")
 
     with torch.no_grad():
@@ -67,7 +69,7 @@ def main_worker(args):
             
     dist.barrier()              # make sure everyone finished writing
     dist.destroy_process_group()
-    if rank == 0:
+    if local_rank == 0:
         print("✓ Done")
 
 
@@ -77,7 +79,6 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default = 128, help = "Batch size to process embeddings")
     parser.add_argument("--output_dir", type=str, default = "/private/home/francoisporcher/imagenet_embeddings", help = "Path where to save image embeddings")
     args = parser.parse_args()
-    # run with python -m francois.scripts.extract_imagenet_embeddings
     # or with torchrun --nproc_per_node=2 francois/scripts/extract_imagenet_embeddings.py
 
     main_worker(args)
